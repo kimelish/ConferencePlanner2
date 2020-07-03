@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,6 +30,20 @@ namespace BackEnd.Controllers
                 .SingleOrDefaultAsync(a => a.UserName == username);
             if (attendee == null) return NotFound();
             return attendee.MapAttendeeResponse();
+        }
+
+        [HttpGet("{username}/sessions")]
+        public async Task<ActionResult<List<SessionResponse>>> GetSessions(string username)
+        {
+            var sessions = await _context.Sessions
+                .AsNoTracking()
+                .Include(s => s.Track)
+                .Include(s => s.SessionSpeakers).ThenInclude(ss => ss.Speaker)
+                .Where(s => s.SessionAttendees.Any(sa => sa.Attendee.UserName == username))
+                .Select(s => s.MapSessionResponse())
+                .ToListAsync();
+
+            return sessions;
         }
 
         [HttpPost]
