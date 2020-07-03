@@ -9,5 +9,7 @@ namespace FrontEnd.Data
     // Add profile data for application users by adding properties to the User class
     public class User : IdentityUser
     {
+        //migration to FrontEnd
+        public bool IsAdmin { get; set; }
     }
 }

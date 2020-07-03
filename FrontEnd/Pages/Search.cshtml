@@ -3,15 +3,16 @@
 @{
 }
 
-<div class="input-group">
+<div>
     <h1>Search</h1>
     <form method="get">
-        <div class="input-group mb-3">
-            <input asp-for="Term" placeholder="Search for sessions or speakers..." class="form-control" />
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit">Go?</button>
+
+            <div class="input-group mb-3">
+                <input asp-for="Term" class="form-control" placeholder="Search for sessions or speakers..." aria-label="Search for sessions or speakers..." aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">Go?</button>
+                </div>
             </div>
-        </div>
         @if (Model.SearchResults?.Count > 0)
         {
             <p>@Model.SearchResults.Count result(s) </p>
